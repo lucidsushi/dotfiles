@@ -1,0 +1,37 @@
+# ~/dotfiles/a-zshrc
+
+source ~/dotfiles/b-aliases.sh
+source ~/dotfiles/c-exports.sh
+source ~/dotfiles/d-oh-my.zsh
+
+# Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
+
+# move to be able to window_key + arrow / a,e move around in terminal
+bindkey "^[[1;5D" backward-word
+bindkey "^[[1;5C" forward-word
+bindkey "^E" end-of-line
+bindkey "^A" beginning-of-line
+# https://stackoverflow.com/questions/12382499/looking-for-altleftarrowkey-solution-in-zsh
+
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/davidsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/davidsu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/davidsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/davidsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+complete -o nospace -C /usr/local/bin/terraform terraform  # terraform completion
+ZSH_DISABLE_COMPFIX=true # load completions fix?
+autoload -U +X bashcompinit && bashcompinit
+# (when this fails try (not in order): 1) rm ~/.zcompdump* and 2) source ~/.zshrc & rehash (a command))
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+eval "$(pyenv init -)"

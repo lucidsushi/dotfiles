@@ -1,0 +1,38 @@
+# ~/dotfiles/b-aliases.sh
+# cloud shell alias
+alias complete-kube='source <(kubectl completion bash)'
+alias path='export PATH=/home/davidsu/.local/bin:$PATH'
+
+alias pullps='gcloud pubsub subscriptions pull testdavidsu --auto-ack'
+alias pullpss='gcloud beta pubsub subscriptions pull testdavidsu --format="json(ackId, message.attributes, message.messageId, message.publishTime)"'
+
+
+# my_alias
+alias .1='cd ".."  ; ls -l;'
+alias .2='cd "../.." ; ls -l;'
+alias .3='cd "../../.." ; ls -l;'
+alias .4='cd "../../../.." ; ls -l;'
+# alias asdf='gnome-screenshot -ac'
+# alias cd='function _cd(){ builtin cd "$1" && ls -l; };_cd'
+alias gitbr='git branch'
+alias gitd='git diff'
+alias gitp='git pull'
+alias gitpu='git push'
+alias gitlog='git log --graph --decorate'
+alias gitlogmax="git for-each-ref --sort=-committerdate refs/heads/ --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(color:red)%(objectname:short)%(color:reset) - %(contents:subject) - %(authorname) (%(color:green)%(committerdate:relative)%(color:reset))'"
+alias gitst='git status'
+alias gcm='git checkout main'
+alias gcl='git checkout @{-1}' # checkout last branch
+alias cloudproxy='./cloud_sql_proxy -instances=crawler-147820:us-east1:crawler-db-replica=tcp:0.0.0.0:3306'
+alias jenkins='sudo gcloud compute start-iap-tunnel some_project_number 8080 --project some_gcp_project --local-host-port=localhost:8080 --zone europe-west4-a'
+alias nbpy='jupyter nbconvert --to python'
+alias python3='/usr/bin/python3.7'
+alias suflow='gsutil cp gs://start-suflow/start.sh .; chmod +x start.sh; ./start.sh'
+alias tf='terraform -chdir=cicd/terraform'
+
+
+# Git branch prompt
+# parse_git_branch() {
+#  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+# }HISTTIMEFORMAT="%F %T "
+HISTTIMEFORMAT="%d/%m/%y %T "
