@@ -7,6 +7,7 @@ mkdir -p ~/dotfiles
 
 for file in [a-zA-Z]*; do
   [ -f "$file" ] || continue
+  [ "$file" = "README.md" ] && continue  # ⛔ Skip README.md
 
   dest="$HOME/dotfiles/$file"
 

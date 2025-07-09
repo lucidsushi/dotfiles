@@ -1,8 +1,9 @@
 # ~/dotfiles/a-zshrc
 
-source ~/dotfiles/b-aliases.sh
-source ~/dotfiles/c-exports.sh
-source ~/dotfiles/d-oh-my.zsh
+source ~/dotfiles/b-bashrc
+source ~/dotfiles/c-aliases
+source ~/dotfiles/d-exports
+source ~/dotfiles/e-oh-my.zsh
 
 
 # Preferred editor for local and remote sessions
@@ -37,4 +38,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-eval "$(pyenv init -)"
+# Bash and Zsh compatible
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi

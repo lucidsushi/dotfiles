@@ -1,0 +1,8 @@
+# brew > zsh > oh-my-zsh  (get a usable shell setup first!)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# exec zsh
+
+# echo >> /home/user/.bashrc
+# "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
