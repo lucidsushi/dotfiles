@@ -1,23 +1,58 @@
 #!/bin/bash
 set -e
 
-echo "📦 Copying letter-prefixed files to ~/dotfiles (with backup)..."
+echo "📦 Syncing letter-prefixed files to ~/dotfiles (with backup)..."
+mkdir -p "$HOME/dotfiles"
 
-mkdir -p ~/dotfiles
-
+# Part 1: Copy dotfiles (letter-prefixed, excluding README.md)
 for file in [a-zA-Z]*; do
   [ -f "$file" ] || continue
-  [ "$file" = "README.md" ] && continue  # ⛔ Skip README.md
+  [ "$file" = "README.md" ] && continue
 
   dest="$HOME/dotfiles/$file"
 
   if [ -f "$dest" ]; then
-    echo "↪ Backing up $dest → $dest.bak"
+    echo "↪ Backup: $dest → $dest.bak"
     cp -f "$dest" "$dest.bak"
   fi
 
-  echo "→ Copying $file → $dest"
+  echo "→ Copy: $file → $dest"
   cp -f "$file" "$dest"
 done
 
-echo "✅ Done!"
+sys_rc_files_overwritten=false
+
+# Part 2: Patch ~/.bashrc (only if not already done)
+if [ ! -f "$HOME/.bashrc.sys.bak" ]; then
+  echo "💾 Saving original ~/.bashrc → ~/.bashrc.sys.bak"
+  cp "$HOME/.bashrc" "$HOME/.bashrc.sys.bak" 2>/dev/null || touch "$HOME/.bashrc.sys.bak"
+
+  echo "⚙️  Writing zsh auto-switch to ~/.bashrc"
+  cat > "$HOME/.bashrc" <<'EOF'
+# Auto-switch to zsh if available and interactive
+if [ -t 1 ] && command -v zsh >/dev/null 2>&1; then
+  export SHELL="$(command -v zsh)"
+  exec "$(command -v zsh)"
+fi
+EOF
+
+  sys_rc_files_overwritten=true
+fi
+
+# Part 3: Patch ~/.zshrc (only if not already done)
+if [ ! -f "$HOME/.zshrc.sys.bak" ]; then
+  echo "💾 Saving original ~/.zshrc → ~/.zshrc.sys.bak"
+  cp "$HOME/.zshrc" "$HOME/.zshrc.sys.bak" 2>/dev/null || touch "$HOME/.zshrc.sys.bak"
+
+  echo "⚙️  Writing dotfile source to ~/.zshrc"
+  cat > "$HOME/.zshrc" <<'EOF'
+[ -f "$HOME/dotfiles/a-zshrc" ] && source "$HOME/dotfiles/a-zshrc"
+EOF
+
+  sys_rc_files_overwritten=true
+fi
+
+# Notify only on first-time init
+if [ "$sys_rc_files_overwritten" = true ]; then
+  echo "✅ Shell configs initialized for the first time."
+fi
